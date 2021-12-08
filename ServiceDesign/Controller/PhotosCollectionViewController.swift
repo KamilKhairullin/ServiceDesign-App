@@ -20,6 +20,7 @@ class PhotosCollectionViewController: UICollectionViewController, UICollectionVi
     override func viewWillAppear(_ animated: Bool) {
         collectionView.reloadData()
     }
+    
     init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
@@ -33,7 +34,7 @@ class PhotosCollectionViewController: UICollectionViewController, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: view.frame.width, height: 4/3*view.frame.width)
+        CGSize(width: view.frame.width * 0.8, height: 4/3*view.frame.width)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

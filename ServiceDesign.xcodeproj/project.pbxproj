@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8E15377827579D2600C839E6 /* ResultSenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E15377727579D2600C839E6 /* ResultSenderViewController.swift */; };
-		8E48F3F22756C1D800ECE9BB /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48F3F12756C1D800ECE9BB /* BaseTabBarController.swift */; };
+		8E0A6FF827597A2C00AB3B4B /* SendPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0A6FF727597A2C00AB3B4B /* SendPhotosViewController.swift */; };
 		8E48F3F42756C38500ECE9BB /* TakePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48F3F32756C38500ECE9BB /* TakePhotoViewController.swift */; };
 		8E48F3F62756C4E100ECE9BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48F3F52756C4E100ECE9BB /* ViewController.swift */; };
 		8E48F3F82756CCBA00ECE9BB /* PhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48F3F72756CCBA00ECE9BB /* PhotosCollectionViewController.swift */; };
 		8E48F3FA2756CFFB00ECE9BB /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E48F3F92756CFFB00ECE9BB /* PhotoManager.swift */; };
+		8E5D50C8275995A500DE678A /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D50C7275995A400DE678A /* 2.png */; };
 		8E7775E32756B892005F5207 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7775E22756B892005F5207 /* AppDelegate.swift */; };
 		8E7775E52756B892005F5207 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7775E42756B892005F5207 /* SceneDelegate.swift */; };
 		8E7775EA2756B892005F5207 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E7775E82756B892005F5207 /* Main.storyboard */; };
@@ -44,12 +44,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8E15377727579D2600C839E6 /* ResultSenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSenderViewController.swift; sourceTree = "<group>"; };
-		8E48F3F12756C1D800ECE9BB /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
+		8E0A6FF727597A2C00AB3B4B /* SendPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPhotosViewController.swift; sourceTree = "<group>"; };
 		8E48F3F32756C38500ECE9BB /* TakePhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakePhotoViewController.swift; sourceTree = "<group>"; };
 		8E48F3F52756C4E100ECE9BB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8E48F3F72756CCBA00ECE9BB /* PhotosCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewController.swift; sourceTree = "<group>"; };
 		8E48F3F92756CFFB00ECE9BB /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
+		8E5D50C7275995A400DE678A /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
 		8E7775DF2756B892005F5207 /* ServiceDesign.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceDesign.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7775E22756B892005F5207 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E7775E42756B892005F5207 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,9 +96,8 @@
 			isa = PBXGroup;
 			children = (
 				8E48F3F32756C38500ECE9BB /* TakePhotoViewController.swift */,
+				8E0A6FF727597A2C00AB3B4B /* SendPhotosViewController.swift */,
 				8E48F3F72756CCBA00ECE9BB /* PhotosCollectionViewController.swift */,
-				8E48F3F12756C1D800ECE9BB /* BaseTabBarController.swift */,
-				8E15377727579D2600C839E6 /* ResultSenderViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -137,6 +136,7 @@
 				8E48F3F52756C4E100ECE9BB /* ViewController.swift */,
 				8E7775ED2756B894005F5207 /* LaunchScreen.storyboard */,
 				8E9D56A7275715790034EFEA /* 1.jpg */,
+				8E5D50C7275995A400DE678A /* 2.png */,
 				8E7775F02756B894005F5207 /* Info.plist */,
 			);
 			path = ServiceDesign;
@@ -289,6 +289,7 @@
 			files = (
 				8E9D56A8275715790034EFEA /* 1.jpg in Resources */,
 				8E7775EF2756B894005F5207 /* LaunchScreen.storyboard in Resources */,
+				8E5D50C8275995A500DE678A /* 2.png in Resources */,
 				8E7775EC2756B894005F5207 /* Assets.xcassets in Resources */,
 				8E7775EA2756B892005F5207 /* Main.storyboard in Resources */,
 			);
@@ -316,14 +317,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E48F3F62756C4E100ECE9BB /* ViewController.swift in Sources */,
-				8E48F3F22756C1D800ECE9BB /* BaseTabBarController.swift in Sources */,
 				8E9D56A6275703090034EFEA /* FilterManager.swift in Sources */,
+				8E0A6FF827597A2C00AB3B4B /* SendPhotosViewController.swift in Sources */,
 				8E7775E32756B892005F5207 /* AppDelegate.swift in Sources */,
 				8E48F3FA2756CFFB00ECE9BB /* PhotoManager.swift in Sources */,
 				8E9D56A22756F1A90034EFEA /* PhotoCell.swift in Sources */,
 				8E48F3F82756CCBA00ECE9BB /* PhotosCollectionViewController.swift in Sources */,
 				8E7775E52756B892005F5207 /* SceneDelegate.swift in Sources */,
-				8E15377827579D2600C839E6 /* ResultSenderViewController.swift in Sources */,
 				8E48F3F42756C38500ECE9BB /* TakePhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -506,6 +506,7 @@
 				DEVELOPMENT_TEAM = K2JV594WP2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceDesign/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) uses camera";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -517,7 +518,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "khirullin2012.service-design";
+				PRODUCT_BUNDLE_IDENTIFIER = "khirullin2012.service-design2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -535,6 +536,7 @@
 				DEVELOPMENT_TEAM = K2JV594WP2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceDesign/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) uses camera";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -546,7 +548,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "khirullin2012.service-design";
+				PRODUCT_BUNDLE_IDENTIFIER = "khirullin2012.service-design2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

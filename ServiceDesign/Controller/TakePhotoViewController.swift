@@ -16,7 +16,7 @@ class TakePhotoViewController: UIViewController, UINavigationControllerDelegate,
     
     var firstPhotoButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.tag = 1
+        btn.tag = 0
         let image = UIImage(named: "empty")!
         btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
@@ -26,7 +26,7 @@ class TakePhotoViewController: UIViewController, UINavigationControllerDelegate,
     
     var secondPhotoButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.tag = 2
+        btn.tag = 1
         let image = UIImage(named: "empty")!
         btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
@@ -36,13 +36,12 @@ class TakePhotoViewController: UIViewController, UINavigationControllerDelegate,
     
     var submitButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setTitle("Submit", for: .normal)
+        btn.addTarget(self, action: #selector(submit), for: .touchUpInside)
         
-        btn.tintColor = .white
-        btn.setBackgroundImage(.pixel(ofColor: .systemBlue), for: .normal)
+        btn.customIsEnabled = true
+        btn.setTitle("Submit", for: .normal)
         btn.layer.cornerRadius = 20
         btn.layer.masksToBounds = true
-        
         btn.heightAnchor.constraint(equalToConstant: 42).isActive = true
         btn.widthAnchor.constraint(equalTo: btn.heightAnchor, multiplier: 5).isActive = true
         return btn
@@ -100,15 +99,15 @@ class TakePhotoViewController: UIViewController, UINavigationControllerDelegate,
                 button.setBackgroundImage(image, for: .normal)
             }
         }
-    
+        
         DispatchQueue.global(qos: .userInitiated).async {
-            self.savePhoto(image)
+            self.savePhoto(image, tag: self.lastPressedButtonTag)
         }
         
         dismiss(animated: true)
     }
     
-    func savePhoto(_ image: UIImage) {
+    func savePhoto(_ image: UIImage, tag: Int) {
         guard
             let unfilteredImage = CIImage(image: image)?.transformed(by: CGAffineTransform(scaleX: 0.3, y: 0.3))
         else {
@@ -116,6 +115,12 @@ class TakePhotoViewController: UIViewController, UINavigationControllerDelegate,
             return
         }
         let imageName = UUID().uuidString
+        PhotoManager.shared.addPhoto(name: imageName, tag: tag)
+        DispatchQueue.main.async {
+            if PhotoManager.shared.getPhotoCount() == PhotoManager.shared.getPhotoLimitation() {
+                self.submitButton.customIsEnabled = true
+            }
+        }
         let imagePath = PhotoManager.shared.getDocumentsDirectory().appendingPathComponent(imageName)
         let filterManager = FilterManager()
         let filteredImage = filterManager.removeGreenScreen(foregroundCIImage: unfilteredImage)
@@ -123,15 +128,21 @@ class TakePhotoViewController: UIViewController, UINavigationControllerDelegate,
         if let jpegData = filteredUIImage.jpegData(compressionQuality: 0.8) {
             try? jpegData.write(to: imagePath)
         }
-        PhotoManager.shared.addPhoto(name: imageName)
     }
     
     @objc func takePhoto(_ sender: UIButton) {
         lastPressedButtonTag = sender.tag
         let vc = UIImagePickerController()
-        vc.sourceType = .camera
+        vc.sourceType = .photoLibrary
         vc.delegate = self
+        //vc.allowsEditing = true
+        //vc.delegate = self
         present(vc, animated: true)
+    }
+    
+    @objc func submit(_ sender: UIButton) {
+        let vc = SendPhotosViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -152,4 +163,21 @@ extension UIImage {
   }
 }
 
-
+extension UIButton {
+    public var customIsEnabled: Bool {
+        get {
+            return isEnabled
+        }
+        set {
+            isEnabled = newValue
+            if newValue == true {
+                setBackgroundImage(.pixel(ofColor: .systemBlue), for: .normal)
+                setTitleColor(.white, for: .normal)
+            } else {
+                let color = UIColor(red: 0.7725, green: 0.7725, blue: 0.7725, alpha: 1)
+                setBackgroundImage(.pixel(ofColor: color), for: .normal)
+                setTitleColor(.darkGray, for: .normal)
+            }
+        }
+    }
+}

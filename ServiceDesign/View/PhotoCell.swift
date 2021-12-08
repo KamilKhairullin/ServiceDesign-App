@@ -22,7 +22,7 @@ class PhotoCell: UICollectionViewCell {
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.widthAnchor.constraint(equalToConstant: frame.width).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: frame.width * 4 / 3).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: frame.height).isActive = true
         imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         imageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }

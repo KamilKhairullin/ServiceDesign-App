@@ -43,7 +43,7 @@ struct FilterManager {
     }
 
     func removeGreenScreen(foregroundCIImage: CIImage) -> CIImage {
-        let chromaCIFilter = chromaKeyFilter(fromHue: 0.3, toHue: 0.4)
+        let chromaCIFilter = chromaKeyFilter(fromHue: 0.2, toHue: 0.44)
         chromaCIFilter?.setValue(foregroundCIImage, forKey: kCIInputImageKey)
         let sourceCIImageWithoutBackground = chromaCIFilter?.outputImage
         var image = CIImage()
