@@ -132,40 +132,56 @@ class SendPhotosViewController: UIViewController {
     }
     
     @objc func sendData() {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let filename = "2.png"
-            let boundary = UUID().uuidString
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        let boundary = UUID().uuidString
+        var urlRequest = URLRequest(url: URL(string: "http://192.168.1.56:5000/imageUpload")!)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        let pm = PhotoManager.shared
+        let firstPhotoPath = pm.getPhoto(for: 0)
+        let secondPhotoPath = pm.getPhoto(for: 1)
+        
+        guard
+            var firstPhotoData = self.generateDataTemplate(filename: firstPhotoPath, boundary: boundary, uniqueID: 1),
+            var secondPhotoData = self.generateDataTemplate(filename: secondPhotoPath, boundary: boundary, uniqueID: 1)
+        else {
+            print("Failed to send data.")
+            return
+        }
             
-            let config = URLSessionConfiguration.default
-            let session = URLSession(configuration: config)
-            var urlRequest = URLRequest(url: URL(string: "http://192.168.1.56:5000/imageUpload")!)
-            urlRequest.httpMethod = "POST"
-            urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        session.uploadTask(with: urlRequest, from: firstPhotoData, completionHandler: { responseData, response, error in
             
-            guard
-                var data = self.generateDataTemplate(filename: filename, boundary: boundary, uniqueID: 1)
-            else {
-                print("Failed to send data.")
+            if(error != nil){
+                print("\(error!.localizedDescription)")
+            }
+            
+            guard let responseData = responseData else {
+                print("no response data")
                 return
             }
             
-            session.uploadTask(with: urlRequest, from: data, completionHandler: { responseData, response, error in
-                
-                if(error != nil){
-                    print("\(error!.localizedDescription)")
-                }
-                
-                guard let responseData = responseData else {
-                    print("no response data")
-                    return
-                }
-                
-                if let responseString = String(data: responseData, encoding: .utf8) {
-                    print("uploaded to: \(responseString)")
-                }
-            }).resume()
+            if let responseString = String(data: responseData, encoding: .utf8) {
+                print("uploaded to: \(responseString)")
+            }
+        }).resume()
+        
+        session.uploadTask(with: urlRequest, from: secondPhotoData, completionHandler: { responseData, response, error in
             
-        }
+            if(error != nil){
+                print("\(error!.localizedDescription)")
+            }
+            
+            guard let responseData = responseData else {
+                print("no response data")
+                return
+            }
+            
+            if let responseString = String(data: responseData, encoding: .utf8) {
+                print("uploaded to: \(responseString)")
+            }
+        }).resume()
     }
     
     func generateDataTemplate(filename: String, boundary: String, uniqueID: Int) -> Data? {

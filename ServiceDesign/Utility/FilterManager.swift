@@ -30,6 +30,7 @@ struct FilterManager {
                 }
             }
         }
+        
         let data = Data(buffer: UnsafeBufferPointer(start: &cubeRGB, count: cubeRGB.count))
         let colorCubeFilter = CIFilter(name: "CIColorCube", parameters: ["inputCubeDimension": size, "inputCubeData": data])
         return colorCubeFilter

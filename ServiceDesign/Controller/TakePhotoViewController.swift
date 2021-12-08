@@ -38,7 +38,7 @@ class TakePhotoViewController: UIViewController, UINavigationControllerDelegate,
         let btn = UIButton(type: .system)
         btn.addTarget(self, action: #selector(submit), for: .touchUpInside)
         
-        btn.customIsEnabled = true
+        btn.customIsEnabled = false
         btn.setTitle("Submit", for: .normal)
         btn.layer.cornerRadius = 20
         btn.layer.masksToBounds = true
