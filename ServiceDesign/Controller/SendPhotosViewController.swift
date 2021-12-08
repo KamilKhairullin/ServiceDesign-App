@@ -135,23 +135,21 @@ class SendPhotosViewController: UIViewController {
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         let boundary = UUID().uuidString
-        var urlRequest = URLRequest(url: URL(string: "http://192.168.1.56:5000/imageUpload")!)
+        var urlRequest = URLRequest(url: URL(string: "http://ec2-18-224-37-124.us-east-2.compute.amazonaws.com:5000/generate_qr")!)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         let pm = PhotoManager.shared
-        let firstPhotoPath = pm.getPhoto(for: 0)
-        let secondPhotoPath = pm.getPhoto(for: 1)
-        
+        let firstPhotoName = pm.getPhoto(for: 0)
+        let secondPhotoName = pm.getPhoto(for: 1)
         guard
-            var firstPhotoData = self.generateDataTemplate(filename: firstPhotoPath, boundary: boundary, uniqueID: 1),
-            var secondPhotoData = self.generateDataTemplate(filename: secondPhotoPath, boundary: boundary, uniqueID: 1)
+            let data = self.generateDataTemplate(firstImageName: firstPhotoName, secondImageName:secondPhotoName, boundary: boundary)
         else {
             print("Failed to send data.")
             return
         }
             
-        session.uploadTask(with: urlRequest, from: firstPhotoData, completionHandler: { responseData, response, error in
+        session.uploadTask(with: urlRequest, from: data, completionHandler: { responseData, response, error in
             
             if(error != nil){
                 print("\(error!.localizedDescription)")
@@ -165,36 +163,59 @@ class SendPhotosViewController: UIViewController {
             if let responseString = String(data: responseData, encoding: .utf8) {
                 print("uploaded to: \(responseString)")
             }
+            
+            let url = URL(string: "http://ec2-18-224-37-124.us-east-2.compute.amazonaws.com:5000/image.png")!
+            let image = self.downloadImage(from: url)
+            let vc = UIViewController()
+            vc.view = UIImageView(image: image)
+            self.present(vc, animated: true)
+            
         }).resume()
         
-        session.uploadTask(with: urlRequest, from: secondPhotoData, completionHandler: { responseData, response, error in
-            
-            if(error != nil){
-                print("\(error!.localizedDescription)")
-            }
-            
-            guard let responseData = responseData else {
-                print("no response data")
-                return
-            }
-            
-            if let responseString = String(data: responseData, encoding: .utf8) {
-                print("uploaded to: \(responseString)")
-            }
-        }).resume()
     }
     
-    func generateDataTemplate(filename: String, boundary: String, uniqueID: Int) -> Data? {
-        guard let image = UIImage(named: filename) else { return nil }
+    func generateDataTemplate(firstImageName: String, secondImageName: String, boundary: String) -> Data? {
+        let firstImagePath = PhotoManager.shared.getDocumentsDirectory().appendingPathComponent(firstImageName)
+        let secondImagePath = PhotoManager.shared.getDocumentsDirectory().appendingPathComponent(secondImageName)
+        guard
+            let firstImage = UIImage(contentsOfFile: firstImagePath.path),
+            let secondImage = UIImage(contentsOfFile: secondImagePath.path)
+        else {
+            print("Unable to find image")
+            return nil
+        }
+        
         var data = Data()
         data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"fileToUpload\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"fileToUpload\"; filename=\"\(firstImageName)\"\r\n".data(using: .utf8)!)
         data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-        data.append("\(filename)\n".data(using: .utf8)!)
-        data.append(image.pngData()!)
+        data.append("\(firstImageName)\n".data(using: .utf8)!)
+        data.append(firstImage.pngData()!)
+        data.append("Content-Disposition: form-data; name=\"fileToUpload\"; filename=\"\(secondImageName)\"\r\n".data(using: .utf8)!)
+        data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+        data.append("\(secondImageName)\n".data(using: .utf8)!)
+        data.append(secondImage.pngData()!)
         data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
         return data
     }
+    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
+    func downloadImage(from url: URL) -> UIImage {
+        print("Download Started")
+        var image: UIImage!
+        getData(from: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+            image = UIImage(data: data)
+            // always update the UI from the main thread
+        }
+        return image
+    }
+    
     
 }
